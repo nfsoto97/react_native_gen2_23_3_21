@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 5,
     paddingHorizontal: 10,
-    backgroundColor: 'gray',
     margin: 5,
     borderRadius: 20,
   },
@@ -15,11 +14,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const Chip = ({ value, pressable, onPress }) => (
+const Chip = ({ value, color , pressable, onPress }) => (
   <TouchableOpacity
     disabled={!pressable}
-    style={styles.container}
+    style={[styles.container,{backgroundColor:color}]}
     onPress={() => onPress(value)}
+    key={value}
   >
     <Text style={styles.text}>{value}</Text>
   </TouchableOpacity>

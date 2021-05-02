@@ -9,18 +9,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const ActorsList = ({ actors }) => (
+const GenresList = ({ genres }) => (
   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
     <FlatList
       style={styles.container}
-      data={actors}
+      data={genres}
       horizontal
       showsHorizontalScrollIndicator={false}
-      keyExtractor={(actorName) => { return actorName }}
-      renderItem={({ item: actorName }) => <Chip value={actorName} color={'gray'} />}
+      keyExtractor={(genre) => { return genre.name }}
+      renderItem={({ item: genre}) => <Chip value={genre.name} color={genre.color} />}
     />
-    <Icon style={{ paddingLeft: 3 }} name="arrow-right" size={20} color="black" />
   </View>
 );
 
-export default ActorsList;
+export default GenresList;

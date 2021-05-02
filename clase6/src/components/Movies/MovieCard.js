@@ -8,8 +8,11 @@ import {
 } from 'react-native';
 import Rating from '../Rating';
 import ActorsList from './ActorsList';
+import GenresList from './GenresList';
+
 import MovieCardImage from './MovieCardImage';
 import MovieFullscreenImage from './MovieFullscreenImage';
+import listgenres from '../../lib/categorias.json'
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +49,12 @@ const styles = StyleSheet.create({
     padding: 0,
     elevation: 10,
     backgroundColor: 'white',
+  },
+  linkbtn: {
+    color: 'blue',
+    textAlign: 'center',
+    fontSize: 20,
+    textDecorationLine: 'underline',
   }
 });
 
@@ -59,8 +68,12 @@ export default class MovieCard extends Component {
       starRating: 1,
       like: false,
       showFullscreenImage: false,
+      showDetails:false,
+      genres:listgenres
     };
   }
+
+  
 
   starRatingChange = starPosition => this.setState({ starRating: starPosition })
 
@@ -68,13 +81,26 @@ export default class MovieCard extends Component {
 
   toggleFullscreen = () => this.setState(({ showFullscreenImage }) => ({ showFullscreenImage: !showFullscreenImage }));
 
+  toggleDetails = () => this.setState(({ showDetails }) => ({ showDetails: !showDetails }));
+
+  getGenres(genres){
+    let data=[];
+    genres.map((gen) =>{
+      let color=this.state.genres[gen]
+      data.push({name:gen,color:color})
+    });
+    return data;
+
+  }
+
   render() {
-    const { posterurl, title, year, imdbRating, actors } = this.props;
+    const { posterurl, title, year, imdbRating, actors,storyline,genres } = this.props;
     const { showFullscreenImage,
       validImage,
       isLoading,
       starRating,
       like,
+      showDetails,
     } = this.state;
 
     return (
@@ -115,7 +141,29 @@ export default class MovieCard extends Component {
           <Text style={[styles.description, styles.textColor, styles.bigFont]}>
             {imdbRating}
           </Text>
+         
         </View>
+        { !showDetails &&  
+          <Text style={styles.linkbtn}
+          onPress={this.toggleDetails}>
+              Ver descripcion
+          </Text>
+        }
+        { showDetails &&  
+          <Text style={styles.linkbtn}
+          onPress={this.toggleDetails}>
+              Ocultar descripcion
+          </Text>
+        }
+         
+
+          { showDetails &&  <Text >
+            {storyline}
+          </Text>
+          }
+
+
+        <GenresList genres={this.getGenres(genres)}></GenresList>
         <ActorsList actors={actors} />
       </View>
     );

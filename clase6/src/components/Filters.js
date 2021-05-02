@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import Chip from './Chip'
+import listgenres from '../lib/categorias.json'
+
 
 const styles = StyleSheet.create({
   container: {
@@ -10,13 +12,18 @@ const styles = StyleSheet.create({
 });
 
 const Filters = ({ moviesGenres, onPress }) => {
-  const genresChip = moviesGenres.map((genre, index) => (
-    <Chip
-      pressable
-      onPress={onPress}
-      key={`genres-${index}`} value={genre}
-    />
-  ));
+  const genresChip = moviesGenres.map((genre, index) => {
+    let color=listgenres[genre]
+
+    return(
+      <Chip
+        pressable
+        onPress={onPress}
+        color={color}
+        key={`genres-${index}`} value={genre}
+      />
+    )
+  });
 
   return (
     <View style={styles.container}>
